@@ -3,7 +3,10 @@ const yaml = require("js-yaml");
 const core = require("@actions/core");
 
 const path = core.getInput("path_to_files");
-const validUsers = core.getInput("api_users")?.split(",");
+const validUsers = core
+  .getInput("api_users")
+  .split(",")
+  .filter((u) => !!u);
 
 const files = fs
   .readdirSync(path)
@@ -64,7 +67,7 @@ function parseAPIUser(fileName, api) {
     fail(`File ${fileName} is missing the "api.user" entry`);
   }
 
-  if (validUsers && !validUsers.includes(api.user)) {
+  if (validUsers.length > 0 && !validUsers.includes(api.user)) {
     fail(
       `File ${fileName} has an invalid API user ${api.user}, must be one of ${validUsers}`
     );

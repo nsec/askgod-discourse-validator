@@ -8,6 +8,7 @@ inputs:
   api_users:
     description: "Comma separated list of valid API users for YAML files"
     required: false
+    default: ""
 runs:
   using: "node16"
   main: "index.js"
