@@ -2,7 +2,7 @@ const fs = require("fs");
 const yaml = require("js-yaml");
 const core = require("@actions/core");
 
-const path = core.getInput("path_to_file");
+const path = core.getInput("path_to_files");
 const validUsers = core.getInput("api_users")?.split(",");
 
 const files = fs
