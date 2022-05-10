@@ -5,12 +5,9 @@ const core = require("@actions/core");
 const path = core.getInput("path_to_file");
 const validUsers = core.getInput("api_users")?.split(",");
 
-const files = fs.readdirSync(path);
-
-const fileNotEndingInYAML = files.find((f) => !f.endsWith(".yaml"));
-if (fileNotEndingInYAML) {
-  fail(`All files must be .yaml, found ${fileNotEndingInYAML}`);
-}
+const files = fs
+  .readdirSync(path)
+  .filter((f) => f.endsWith(".yaml") || f.endsWith(".yml"));
 
 files
   .map((file) => {
