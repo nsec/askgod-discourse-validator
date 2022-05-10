@@ -1,18 +1,13 @@
-name: 'Askgod discourse YAML validator'
-description: 'Validates YAML files format and integrity for discourse posts'
+name: "Askgod discourse YAML validator"
+description: "Validates YAML files format and integrity for discourse posts"
 inputs:
-  path_to_files:  
-    description: 'Directory containing all YAML files'
+  path_to_files:
+    description: "Directory containing all YAML files"
     required: true
-    default: 'scenario'
+    default: "scenario"
   api_users:
-    description: 'Comma separated list of valid API users for YAML files'
+    description: "Comma separated list of valid API users for YAML files"
     required: false
 runs:
-  using: "composite"
-  steps:
-    - run: npm install
-      shell: bash
-    - run: node index.js
-      shell: bash
-    
+  using: "node16"
+  main: "index.js"
