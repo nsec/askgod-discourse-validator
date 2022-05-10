@@ -9,5 +9,10 @@ inputs:
     description: 'Comma separated list of valid API users for YAML files'
     required: false
 runs:
-  using: 'node16'
-  main: 'index.js'
+  using: "composite"
+  steps:
+    - run: npm install
+      shell: bash
+    - run: node index.js
+      shell: bash
+    
