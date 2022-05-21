@@ -11,7 +11,7 @@ const validUsers = core
 const files = fs.readdirSync(path).filter((f) => f.endsWith(".yaml"));
 
 fs.readdirSync(path)
-  .filter((f) => f.endsWith(".yaml"))
+  .filter((f) => f.endsWith(".yml"))
   .forEach((file) => {
     fail(`Error with file ${file}, replace .yml with .yaml`);
   });
