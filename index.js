@@ -8,9 +8,13 @@ const validUsers = core
   .split(",")
   .filter((u) => !!u);
 
-const files = fs
-  .readdirSync(path)
-  .filter((f) => f.endsWith(".yaml") || f.endsWith(".yml"));
+const files = fs.readdirSync(path).filter((f) => f.endsWith(".yaml"));
+
+fs.readdirSync(path)
+  .filter((f) => f.endsWith(".yaml"))
+  .forEach((file) => {
+    fail(`Error with file ${file}, replace .yml with .yaml`);
+  });
 
 files
   .map((file) => {
