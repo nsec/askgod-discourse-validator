@@ -33,6 +33,9 @@ files
       case "post":
         parsePost(file, content);
         break;
+      case "posts":
+        parsePosts(file, content);
+        break;
       default:
         fail(
           `File ${file} must be of type "topic" or "post", found ${content.type}`
@@ -55,6 +58,30 @@ function parsePost(fileName, content) {
   if (!topic || !body) {
     fail(`File ${fileName} with type post must have a topic and body`);
   }
+
+  if (!files.includes(topic + ".yaml")) {
+    fail(
+      `File ${fileName} has an invalid topic, ${topic}.yaml does not exist `
+    );
+  }
+
+  parseAPIUser(fileName, api);
+  parseTrigger(fileName, trigger);
+}
+
+function parsePosts(fileName, content) {
+  const { topic, posts, trigger, api } = content;
+  if (!topic) {
+    fail(`File ${fileName} with type posts must have a topic`);
+  }
+
+  posts.forEach({ body, api: subApi }, () => {
+    if (!body) {
+      fail(`File ${fileName} with type posts have a post without a body`);
+    }
+
+    parseAPIUser(fileName, subApi);
+  })
 
   if (!files.includes(topic + ".yaml")) {
     fail(
