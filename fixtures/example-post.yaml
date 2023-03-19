@@ -1,0 +1,13 @@
+type: post
+topic: example-topic
+trigger:
+  type: flag
+  tag: flag01
+
+api:
+  user: test
+
+body: |-
+  Congratulations %{team_name} on scoring even more points!
+
+  We're told that there may be more flags hidding though, look a bit closer.

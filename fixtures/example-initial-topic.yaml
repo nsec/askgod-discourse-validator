@@ -1,0 +1,8 @@
+type: topic
+
+api:
+  user: test
+
+title: An initial topic for this category
+body: |-
+  This entry will be posted as soon as the category is created.
