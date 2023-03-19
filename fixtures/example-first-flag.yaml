@@ -1,0 +1,14 @@
+type: topic
+trigger:
+  type: flag
+  tag: my-flag-tag
+
+api:
+  user: test
+
+title: Congratulations on your first flag!
+body: |-
+  Congratulations!
+  You have just scored your first %{team_score} points!
+
+  Be that the first of many more flags for your team!

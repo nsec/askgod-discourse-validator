@@ -2,9 +2,8 @@ const fs = require("fs");
 const yaml = require("js-yaml");
 const core = require("@actions/core");
 
-const path = core.getInput("path_to_files");
-const validUsers = core
-  .getInput("api_users")
+const path = core.getInput("path_to_files") || process.env.PATH_TO_FILES;
+const validUsers = (core.getInput("api_users") || process.env.API_USERS || '')
   .split(",")
   .filter((u) => !!u);
 
@@ -32,6 +31,9 @@ files
         break;
       case "post":
         parsePost(file, content);
+        break;
+      case "posts":
+        parsePosts(file, content);
         break;
       default:
         fail(
@@ -63,6 +65,30 @@ function parsePost(fileName, content) {
   }
 
   parseAPIUser(fileName, api);
+  parseTrigger(fileName, trigger);
+}
+
+function parsePosts(fileName, content) {
+  const { topic, posts, trigger, api } = content;
+  if (!topic) {
+    fail(`File ${fileName} with type posts must have a topic`);
+  }
+
+  posts.forEach(({ body, api: subApi }) => {
+    if (!body) {
+      fail(`File ${fileName} with type posts have a post without a body`);
+    }
+
+    parseAPIUser(fileName, subApi);
+  })
+
+  if (!files.includes(topic + ".yaml")) {
+    fail(
+      `File ${fileName} has an invalid topic, ${topic}.yaml does not exist `
+    );
+  }
+
+  if (api) parseAPIUser(fileName, api);
   parseTrigger(fileName, trigger);
 }
 

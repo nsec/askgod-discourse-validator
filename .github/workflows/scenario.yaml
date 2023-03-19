@@ -1,0 +1,15 @@
+name: Scenario files validation
+
+on: push
+
+jobs:
+  validate-fixtures-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Validate scenario files
+        run:  node index.js
+        env:
+          PATH_TO_FILES: "fixtures"
+          api_users: "test"

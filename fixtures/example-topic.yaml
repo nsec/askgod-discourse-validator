@@ -1,0 +1,11 @@
+type: topic
+trigger:
+  type: timer
+  after: 2017/05/13 21:51
+
+api:
+  user: test
+
+title: New challenge open
+body: |-
+  Go look at http://new-challenge.ctf
