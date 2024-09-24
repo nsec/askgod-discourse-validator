@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { globSync } = require("glob");
 const yaml = require("js-yaml");
 const core = require("@actions/core");
 
@@ -7,18 +8,12 @@ const validUsers = (core.getInput("api_users") || process.env.API_USERS || '')
   .split(",")
   .filter((u) => !!u);
 
-const files = fs.readdirSync(path).filter((f) => f.endsWith(".yaml"));
-
-fs.readdirSync(path)
-  .filter((f) => f.endsWith(".yml"))
-  .forEach((file) => {
-    fail(`Error with file ${file}, replace .yml with .yaml`);
-  });
+const files = globSync([`${path}/*.{yml,yaml}`]);
 
 files
   .map((file) => {
     try {
-      const content = yaml.load(fs.readFileSync(`${path}/${file}`, "utf8"));
+      const content = yaml.load(fs.readFileSync(file, "utf8"));
       return [file, content];
     } catch (error) {
       fail(`Error parsing file ${file} : ${error}`);
@@ -58,7 +53,7 @@ function parsePost(fileName, content) {
     fail(`File ${fileName} with type post must have a topic and body`);
   }
 
-  if (!files.includes(topic + ".yaml")) {
+  if (!globSync(`${path}/${topic}.{yml,yaml}`)) {
     fail(
       `File ${fileName} has an invalid topic, ${topic}.yaml does not exist `
     );
@@ -82,7 +77,7 @@ function parsePosts(fileName, content) {
     parseAPIUser(fileName, subApi);
   })
 
-  if (!files.includes(topic + ".yaml")) {
+  if (!globSync(`${path}/${topic}.{yml,yaml}`)) {
     fail(
       `File ${fileName} has an invalid topic, ${topic}.yaml does not exist `
     );
